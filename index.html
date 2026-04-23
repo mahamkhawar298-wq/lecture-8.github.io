@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Enchanted Garden | Theme Studio · Sidebar & Central Bloom</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #bdd4a0 0%, #a2c27a 100%);
+      font-family: 'Poppins', 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* floating petals */
+    body::before {
+      content: "🌸🌼🌻🌺🍃🌿";
+      position: absolute;
+      bottom: 15px;
+      left: 10px;
+      font-size: 100px;
+      opacity: 0.12;
+      pointer-events: none;
+      white-space: pre;
+      z-index: 0;
+    }
+    body::after {
+      content: "🌾🍂🌷🌱💮";
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 85px;
+      opacity: 0.1;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* main glass card */
+    .garden-studio {
+      max-width: 1400px;
+      width: 100%;
+      background: rgba(255, 250, 235, 0.88);
+      backdrop-filter: blur(12px);
+      border-radius: 2.5rem;
+      box-shadow: 0 35px 55px rgba(30, 20, 5, 0.3);
+      overflow: hidden;
+      border: 1px solid rgba(245, 225, 170, 0.8);
+      z-index: 2;
+      transition: all 0.2s;
+    }
+
+    /* two columns: SIDEBAR (full theme options) + CENTER (all content) */
+    .studio-layout {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    /* ========= LEFT SIDEBAR : FULL THEME OPTIONS ========= */
+    .theme-sidebar-full {
+      flex: 0 0 280px;
+      background: rgba(248, 240, 215, 0.94);
+      backdrop-filter: blur(4px);
+      padding: 2rem 1.5rem;
+      border-right: 2px solid #e6d5b3;
+      box-shadow: 4px 0 18px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+      border-bottom: 2px dashed #cfb87c;
+      padding-bottom: 0.7rem;
+    }
+    .sidebar-header h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4a6b2f, #b67b3a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .flower-icon-large {
+      font-size: 2rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #8b6c3e;
+      margin: 1.2rem 0 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* theme buttons vertical (full them ka jo click karna se open ho) */
+    .theme-vertical-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .theme-card-btn {
+      background: #fffcf5;
+      border: 1px solid #eeddbb;
+      padding: 0.75rem 1rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      width: 100%;
+      font-family: inherit;
+    }
+    .theme-card-btn span:first-child {
+      font-size: 1.4rem;
+    }
+    .theme-card-btn:hover {
+      transform: translateX(6px) scale(1.02);
+      background: #fffef7;
+      border-color: #c6a464;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    }
+    .active-theme-side {
+      background: #f8efdb;
+      border-left: 5px solid #d4a373;
+      transform: translateX(3px);
+    }
+
+    /* font size & zoom controls (zoom in/out) */
+    .zoom-controls {
+      display: flex;
+      gap: 0.8rem;
+      margin: 0.5rem 0 1.2rem;
+      flex-wrap: wrap;
+    }
+    .zoom-btn {
+      background: #e9ddc1;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+    .zoom-btn:hover {
+      background: #dfcfac;
+      transform: scale(0.97);
+    }
+
+    /* action group */
+    .action-group-side {
+      margin: 1.5rem 0 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .action-side-btn {
+      background: #e3d4b5;
+      border: none;
+      padding: 0.6rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .reset-side {
+      background: #f7dfb2;
+      color: #7b491a;
+    }
+    .toggle-side {
+      background: #cfdfb5;
+    }
+    .status-badge {
+      font-size: 0.65rem;
+      background: #e9dfca;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* ========= CENTER PANEL (sab center ma: image, paragraph, garden topic) ========= */
+    .center-bloom {
+      flex: 1;
+      padding: 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* topic garden with flowers type */
+    .topic-garden-card {
+      background: rgba(255, 245, 220, 0.75);
+      backdrop-filter: blur(4px);
+      border-radius: 2rem;
+      padding: 1.2rem 1.8rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 750px;
+      border: 1px solid #f1dfb5;
+    }
+    .topic-garden-card h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: #4f6a2c;
+    }
+    .flower-types-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin: 1rem 0 0.2rem;
+    }
+    .flower-badge-item {
+      background: white;
+      border-radius: 50px;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* unique garden flower image (high quality) */
+    .flower-image-center {
+      background: #fef5e2;
+      border-radius: 2rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 15px 25px -8px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+    .garden-flower-pic {
+      width: 100%;
+      border-radius: 1.5rem;
+      max-height: 280px;
+      object-fit: cover;
+      transition: all 0.2s;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+    .img-visible {
+      display: block;
+    }
+    .img-hidden {
+      display: none;
+    }
+    .img-caption {
+      font-size: 0.7rem;
+      margin-top: 0.6rem;
+      color: #8b6b3e;
+    }
+
+    /* main paragraph card */
+    .paragraph-center-card {
+      background: rgba(255, 252, 240, 0.92);
+      border-radius: 2rem;
+      padding: 1.8rem;
+      max-width: 750px;
+      width: 100%;
+      margin: 0 auto 0.5rem;
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+      border-left: 6px solid #cfb070;
+    }
+    #mainGardenParagraph {
+      font-size: 1rem;
+      line-height: 1.7;
+      transition: background-color 0.2s ease, color 0.2s, font-size 0.2s;
+      font-weight: 450;
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.7rem;
+      background: rgba(245, 235, 205, 0.6);
+      border-top: 1px solid #eedfb8;
+      color: #5e4a2c;
+    }
+
+    @media (max-width: 800px) {
+      .studio-layout {
+        flex-direction: column;
+      }
+      .theme-sidebar-full {
+        border-right: none;
+        border-bottom: 2px solid #e6d5b3;
+      }
+      body {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="garden-studio">
+  <div class="studio-layout">
+    <!-- LEFT SIDEBAR: FULL THEME OPTIONS (click se theme open hota hai) -->
+    <div class="theme-sidebar-full">
+      <div class="sidebar-header">
+        <div class="flower-icon-large">🌼🎋</div>
+        <h3>Theme Studio<br><span style="font-size: 0.7rem;">garden moods</span></h3>
+      </div>
+
+      <div class="section-label">🌸 click to bloom · full themes</div>
+      <div class="theme-vertical-list" id="themeVerticalList">
+        <button class="theme-card-btn" data-theme="rosegarden">
+          <span>🌹🍃</span> <span>Rose Garden · velvet blush</span>
+        </button>
+        <button class="theme-card-btn" data-theme="lavendermist">
+          <span>💜🌙</span> <span>Lavender Mist · purple dream</span>
+        </button>
+        <button class="theme-card-btn" data-theme="sunflowerglow">
+          <span>🌻✨</span> <span>Sunflower Glow · golden nectar</span>
+        </button>
+        <button class="theme-card-btn" data-theme="emeraldgrove">
+          <span>🍃🌲</span> <span>Emerald Grove · deep moss</span>
+        </button>
+        <button class="theme-card-btn" data-theme="cherryblossomkiss">
+          <span>🌸🎐</span> <span>Cherry Kiss · petal pink</span>
+        </button>
+      </div>
+
+      <div class="section-label">🔍 zoom & font size</div>
+      <div class="zoom-controls">
+        <button id="zoomInBtn" class="zoom-btn">🔍+ Zoom In (font +)</button>
+        <button id="zoomOutBtn" class="zoom-btn">🔍- Zoom Out (font -)</button>
+        <button id="resetFontBtn" class="zoom-btn">⟳ Reset Font</button>
+      </div>
+      <div class="section-label">🎛️ utilities</div>
+      <div class="action-group-side">
+        <button id="toggleImageSideBtn" class="action-side-btn toggle-side">🖼️🌸 Hide / Show Flower Image</button>
+        <button id="resetFullBtn" class="action-side-btn reset-side">🌿⟳ Reset All (original styles + image)</button>
+      </div>
+      <div class="status-badge" id="themeStatusMsg">✨ click any theme → bg, text & font size</div>
+    </div>
+
+    <!-- CENTER PANEL: topic garden, flower image, paragraph (sab center ma) -->
+    <div class="center-bloom">
+      <!-- Topic Garden with flowers type -->
+      <div class="topic-garden-card">
+        <h2>🌼🌸🌺 Topic Garden · Flowers Type 🌻🌷🌿</h2>
+        <div class="flower-types-list">
+          <div class="flower-badge-item">🌹 Rose</div>
+          <div class="flower-badge-item">🌸 Sakura</div>
+          <div class="flower-badge-item">🌻 Sunflower</div>
+          <div class="flower-badge-item">💜 Lavender</div>
+          <div class="flower-badge-item">🌼 Daisy</div>
+          <div class="flower-badge-item">🌷 Tulip</div>
+          <div class="flower-badge-item">🌺 Hibiscus</div>
+          <div class="flower-badge-item">🍃 Fern</div>
+        </div>
+        <div style="font-size: 0.7rem; margin-top: 10px;">✦ each theme transforms background, text color & font size ✦</div>
+      </div>
+
+      <!-- Unique Garden Flower Image (high quality, garden flower) -->
+      <div class="flower-image-center">
+        <img id="gardenFlowerImg" 
+             src="https://images.pexels.com/photos/736230/pexels-photo-736230.jpeg?auto=compress&cs=tinysrgb&w=700" 
+             alt="beautiful garden flower field with vibrant blooms" 
+             class="garden-flower-pic img-visible">
+        <div class="img-caption">🌿✨ secret flower garden · unique magical bloom</div>
+      </div>
+
+      <!-- Main Paragraph (affected by theme) -->
+      <div class="paragraph-center-card">
+        <p id="mainGardenParagraph">
+          🌱💮 Welcome to the <strong>Enchanted Theme Studio</strong> — where every click on the left sidebar blooms into a new garden mood.  
+          Choose a theme: <strong>Rose Garden</strong> brings velvet blush, <strong>Lavender Mist</strong> wraps in purple calm,  
+          <strong>Sunflower Glow</strong> radiates golden warmth, <strong>Emerald Grove</strong> whispers deep forest elegance,  
+          and <strong>Cherry Kiss</strong> paints soft pink spring.  
+          Each theme transforms my <strong>background color, text color, and font size</strong> instantly.  
+          Use <strong>Zoom In/Out</strong> to adjust font size, toggle the flower image, or reset everything to original harmony.  
+          Let the garden of creativity flourish.
+        </p>
+      </div>
+      <div class="status-badge" style="background:#e8dcc8; margin-top: 12px;">🌸 center stage · theme magic blooms here</div>
+    </div>
+  </div>
+  <div class="footer-note">🌼 Theme Studio | left sidebar full themes | center: topic garden, unique flower image, paragraph | zoom controls + image toggle + full reset</div>
+</div>
+
+<script>
+  // DOM elements
+  const paragraph = document.getElementById('mainGardenParagraph');
+  const gardenImage = document.getElementById('gardenFlowerImg');
+  const toggleImageBtn = document.getElementById('toggleImageSideBtn');
+  const resetFullBtn = document.getElementById('resetFullBtn');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const resetFontBtn = document.getElementById('resetFontBtn');
+  const statusSpan = document.getElementById('themeStatusMsg');
+
+  // ---------- ORIGINAL STYLES CAPTURE (reset reference) ----------
+  let originalBgColor = null, originalTextColor = null, originalFontSize = null;
+
+  function captureOriginalStyles() {
+    const computed = window.getComputedStyle(paragraph);
+    originalBgColor = computed.backgroundColor;
+    originalTextColor = computed.color;
+    originalFontSize = computed.fontSize;
+    // fallback safe
+    if (!originalBgColor) originalBgColor = 'rgb(255, 252, 240)';
+    if (!originalTextColor) originalTextColor = 'rgb(0, 0, 0)';
+    if (!originalFontSize) originalFontSize = '16px';
+  }
+
+  function resetToOriginal() {
+    if (originalBgColor && originalTextColor && originalFontSize) {
+      paragraph.style.backgroundColor = originalBgColor;
+      paragraph.style.color = originalTextColor;
+      paragraph.style.fontSize = originalFontSize;
+    } else {
+      paragraph.style.backgroundColor = '#fffcf0';
+      paragraph.style.color = '#2c3a1f';
+      paragraph.style.fontSize = '1rem';
+    }
+    // image visible reset
+    if (gardenImage.classList.contains('img-hidden')) {
+      gardenImage.classList.remove('img-hidden');
+      gardenImage.classList.add('img-visible');
+      imageVisible = true;
+    } else {
+      gardenImage.classList.add('img-visible');
+      gardenImage.classList.remove('img-hidden');
+      imageVisible = true;
+    }
+    statusSpan.innerText = '🌿 reset to original styles (bg, text, font) + image visible';
+    setTimeout(() => {
+      if (statusSpan.innerText.includes('reset')) statusSpan.innerText = '🌸 themes ready — pick a mood from sidebar';
+    }, 2000);
+    // remove active highlight from theme buttons
+    document.querySelectorAll('.theme-card-btn').forEach(btn => {
+      btn.classList.remove('active-theme-side');
+    });
+  }
+
+  // ---------- THEME DEFINITIONS (change background, text color, and font size of paragraph) ----------
+  const themeLibrary = {
+    rosegarden: {
+      bg: '#ffe6ec',
+      text: '#b13e5c',
+      fontSize: '1.05rem'
+    },
+    lavendermist: {
+      bg: '#edeaff',
+      text: '#56428f',
+      fontSize: '1rem'
+    },
+    sunflowerglow: {
+      bg: '#fff0bf',
+      text: '#c2741a',
+      fontSize: '1.08rem'
+    },
+    emeraldgrove: {
+      bg: '#e1f3e1',
+      text: '#2c6e3c',
+      fontSize: '1.02rem'
+    },
+    cherryblossomkiss: {
+      bg: '#ffe4f0',
+      text: '#c45c7a',
+      fontSize: '1.07rem'
+    }
+  };
+
+  function applyTheme(themeId) {
+    const theme = themeLibrary[themeId];
+    if (!theme) return;
+    paragraph.style.backgroundColor = theme.bg;
+    paragraph.style.color = theme.text;
+    paragraph.style.fontSize = theme.fontSize;
+    let themePretty = '';
+    switch(themeId) {
+      case 'rosegarden': themePretty = 'Rose Garden (velvet blush)'; break;
+      case 'lavendermist': themePretty = 'Lavender Mist (purple dream)'; break;
+      case 'sunflowerglow': themePretty = 'Sunflower Glow (golden)'; break;
+      case 'emeraldgrove': themePretty = 'Emerald Grove (deep moss)'; break;
+      case 'cherryblossomkiss': themePretty = 'Cherry Kiss (petal pink)'; break;
+      default: themePretty = themeId;
+    }
+    statusSpan.innerText = `🎨 ${themePretty} → background, text color & font size changed`;
+    // active highlight on sidebar
+    document.querySelectorAll('.theme-card-btn').forEach(btn => {
+      btn.classList.remove('active-theme-side');
+      if (btn.getAttribute('data-theme') === themeId) {
+        btn.classList.add('active-theme-side');
+      }
+    });
+  }
+
+  // attach theme button events (sidebar full options)
+  document.querySelectorAll('.theme-card-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const themeVal = btn.getAttribute('data-theme');
+      applyTheme(themeVal);
+    });
+  });
+
+  // ---------- ZOOM IN / ZOOM OUT & RESET FONT (font size only) ----------
+  let currentFontSize = null;
+
+  function getCurrentFontSize() {
+    const computed = window.getComputedStyle(paragraph);
+    let size = computed.fontSize;
+    return parseFloat(size);
+  }
+
+  function zoomIn() {
+    let current = getCurrentFontSize();
+    let newSize = current + 2;
+    if (newSize > 36) newSize = 36;
+    paragraph.style.fontSize = newSize + 'px';
+    statusSpan.innerText = `🔍 zoom in: font size = ${newSize}px (colors unchanged)`;
+  }
+
+  function zoomOut() {
+    let current = getCurrentFontSize();
+    let newSize = current - 2;
+    if (newSize < 10) newSize = 10;
+    paragraph.style.fontSize = newSize + 'px';
+    statusSpan.innerText = `🔍 zoom out: font size = ${newSize}px`;
+  }
+
+  function resetFontOnly() {
+    if (originalFontSize) {
+      paragraph.style.fontSize = originalFontSize;
+      statusSpan.innerText = `⟳ font reset to original size (${originalFontSize})`;
+    } else {
+      paragraph.style.fontSize = '1rem';
+      statusSpan.innerText = `⟳ font reset to default`;
+    }
+  }
+
+  zoomInBtn.addEventListener('click', zoomIn);
+  zoomOutBtn.addEventListener('click', zoomOut);
+  resetFontBtn.addEventListener('click', resetFontOnly);
+
+  // ---------- IMAGE TOGGLE (hide/show flower image) ----------
+  let imageVisible = true;
+  function toggleFlowerImage() {
+    if (imageVisible) {
+      gardenImage.classList.remove('img-visible');
+      gardenImage.classList.add('img-hidden');
+      imageVisible = false;
+      statusSpan.innerText = '🌼 flower image hidden — click again to reveal garden bloom';
+    } else {
+      gardenImage.classList.remove('img-hidden');
+      gardenImage.classList.add('img-visible');
+      imageVisible = true;
+      statusSpan.innerText = '🌸 unique flower image revealed — enjoy the floral magic';
+      setTimeout(() => {
+        if (statusSpan.innerText.includes('revealed')) statusSpan.innerText = '🎨 theme studio ready';
+      }, 1500);
+    }
+  }
+  toggleImageBtn.addEventListener('click', toggleFlowerImage);
+
+  // ---------- FULL RESET (original styles + image visible + font reset + clear active theme) ----------
+  resetFullBtn.addEventListener('click', () => {
+    resetToOriginal();
+    // additionally ensure font reset consistency
+    if (originalFontSize) paragraph.style.fontSize = originalFontSize;
+    document.querySelectorAll('.theme-card-btn').forEach(btn => btn.classList.remove('active-theme-side'));
+    statusSpan.innerText = '🌿 full reset: paragraph original styles + image shown';
+  });
+
+  // ---------- IMAGE FALLBACK (unique garden flower) ----------
+  window.addEventListener('DOMContentLoaded', () => {
+    captureOriginalStyles();
+    paragraph.style.backgroundColor = '';
+    paragraph.style.color = '';
+    paragraph.style.fontSize = '';
+    captureOriginalStyles();
+    resetToOriginal();
+    // image error fallback to another beautiful garden flower
+    if (gardenImage.complete && gardenImage.naturalWidth === 0) {
+      gardenImage.src = "https://images.pexels.com/photos/56866/garden-rose-red-rose-rose-bloom-56866.jpeg?auto=compress&cs=tinysrgb&w=700";
+    }
+    statusSpan.innerText = '🌻 Theme Studio ready · click sidebar themes (bg, text, font size)';
+  });
+
+  gardenImage.onerror = function() {
+    this.src = "https://images.pexels.com/photos/1072179/pexels-photo-1072179.jpeg?auto=compress&cs=tinysrgb&w=700";
+  };
+
+  // ensure reset also clears active theme highlight perfectly
+</script>
+</body>
+</html>
